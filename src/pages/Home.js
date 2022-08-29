@@ -1,0 +1,265 @@
+import React, { useContext, useEffect, useState } from "react";
+import CoverImage from "../assets/cover-image.jpg";
+import { useNavigate } from "react-router-dom";
+import Card from "../components/Card";
+import SliderContent from "../components/SliderContent";
+import SearchPage from "./SearchPage";
+import axios from "axios";
+import { DataContext } from "../components/DataProvider";
+
+const Home = () => {
+  const context = useContext(DataContext);
+
+  const { search, setSearch } = context;
+  const [selected, setSelected] = useState("Streaming");
+  const [selectedWatch, setSelectedWatch] = useState("movie");
+  const [selectedTrend, setSelectedTrend] = useState("day");
+  const [trend, setTrend] = useState([]);
+  const [freeToWatch, setFreeToWatch] = useState([]);
+  let navigate = useNavigate();
+
+  const SubmitSearch = (e) => {
+    navigate("/search");
+  };
+
+  const getTrendingData = async () => {
+    const trendingOption = {
+      method: "GET",
+      url: `https://api.themoviedb.org/3/trending/all/${selectedTrend}`,
+      params: {
+        api_key: "378d50517001a889a5e2eae0c9b45aaa",
+        // time_window: selectedTrend,
+        // media_type: "all",
+      },
+    };
+    await axios.request(trendingOption).then((result) => {
+      setTrend(result.data.results);
+      console.log(result.data.results);
+    });
+  };
+
+  const getFreeData = async () => {
+    const trendingOption = {
+      method: "GET",
+      url: `https://api.themoviedb.org/3/discover/${selectedWatch}`,
+      params: {
+        api_key: "378d50517001a889a5e2eae0c9b45aaa",
+        with_watch_monetization_types: "free",
+        watch_region: "US",
+        sort_by: "popularity.desc",
+      },
+    };
+    await axios.request(trendingOption).then((result) => {
+      setFreeToWatch(result.data.results);
+      // console.log(result.data.results);
+    });
+  };
+
+  useEffect(() => {
+    getTrendingData();
+  }, [selectedTrend]);
+
+  useEffect(() => {
+    getFreeData();
+  }, [selectedWatch]);
+
+  return (
+    <div className="w-full flex items-center flex-col">
+      <header
+        className="max-w-[1440px] w-full flex flex-col items-center justify-center  py-40 text-white gap-16 bg-[top center] bg-no-repeat bg-cover max-h-[360px] min-h-[300px] background"
+        style={{
+          backgroundImage: `linear-gradient(to left,rgba(3, 37, 65, 0%),rgba(3, 37, 65, 100%)),url(${CoverImage})`,
+        }}
+      >
+        <div className="p-10 flex flex-col gap-10">
+          <div>
+            <h2 className="text-5xl font-bold ">Welcome.</h2>
+            <h3 className="text-4xl font-bold">
+              Millions of movies, TV shows and people to discover. Explore now.
+            </h3>
+          </div>
+
+          <form
+            className="max-w-[90%] w-full relative"
+            onSubmit={(e) => SubmitSearch(e)}
+          >
+            <input
+              name="query"
+              type="text"
+              placeholder="Search for a movie, tv show, person......"
+              value={search}
+              className="w-full h-12 text-lg text-black/50 border-none rounded-3xl pl-5 focus:outline-none"
+              onChange={(e) => setSearch(e.target.value)}
+            />
+            <input
+              type="submit"
+              value="Search"
+              className="inline-flex justify-center items-center  py-3 px-7 border-none rounded-3xl absolute top-0 right-[-24px] bg-gradient-to-r from-[#1ed5a9]/100 to-[#1ed5a9]"
+              style={{
+                background:
+                  "linear-gradient to right,rgba(30, 213, 169, 1) 0%,rgba(30, 213, 169, 1) 100%)",
+              }}
+            />
+          </form>
+        </div>
+      </header>
+      <div className="max-w-[1440px] w-full mt-10 px-5  ">
+        <div className="flex gap-5 items-center">
+          <h2 className="text-2xl font-semibold">What's Popular</h2>
+          <div className="border border-black flex rounded-l-3xl rounded-r-3xl overflow-hidden">
+            <input
+              type="button"
+              onClick={() => setSelected("Streaming")}
+              value="Streaming"
+              className={
+                selected === "Streaming"
+                  ? " inline-block px-3  hover:cursor-pointer bg-[#032541] text-[#62cbbc]"
+                  : "inline-block px-3 hover:cursor-pointer"
+              }
+            />
+
+            <input
+              type="button"
+              onClick={() => setSelected("On Tv")}
+              value=" On Tv"
+              className={
+                selected === "On Tv"
+                  ? " inline-block px-3  hover:cursor-pointer bg-[#032541] text-[#62cbbc]"
+                  : "inline-block px-3 hover:cursor-pointer"
+              }
+            />
+
+            <input
+              type="button"
+              onClick={() => setSelected("For Rent")}
+              value="For Rent"
+              className={
+                selected === "For Rent"
+                  ? " inline-block px-3  hover:cursor-pointer bg-[#032541] text-[#62cbbc]"
+                  : "inline-block px-3 hover:cursor-pointer"
+              }
+            />
+
+            <input
+              type="button"
+              value="In Theaters"
+              onClick={() => setSelected("In Theaters")}
+              className={
+                selected === "In Theaters"
+                  ? " inline-block px-3  hover:cursor-pointer bg-[#032541] text-[#62cbbc]"
+                  : "inline-block px-3 hover:cursor-pointer"
+              }
+            />
+          </div>
+        </div>
+        <div className="relative">
+          <div className="p-3 gap-3 flex overflow-x-scroll scroll-bar ">
+            <Card />
+            <Card />
+            <Card />
+            <Card />
+            <Card />
+            <Card />
+            <Card />
+            <Card />
+            <Card />
+          </div>
+          <div className="absolute top-0 right-0 bg-gradient-to-l from-[#fff] h-full w-[5%]" />
+        </div>
+      </div>
+      <div className="max-w-[1440px] w-full mt-8 px-5  ">
+        <div className="flex gap-5 items-center">
+          <h2 className="text-2xl font-semibold">Free to Watch</h2>
+          <div className="border border-black flex rounded-l-3xl rounded-r-3xl overflow-hidden">
+            <input
+              type="button"
+              onClick={() => setSelectedWatch("movie")}
+              value="Movies"
+              className={
+                selectedWatch === "movie"
+                  ? " inline-block px-3  hover:cursor-pointer bg-[#032541] text-[#62cbbc]"
+                  : "inline-block px-3 hover:cursor-pointer"
+              }
+            />
+
+            <input
+              type="button"
+              onClick={() => setSelectedWatch("tv")}
+              value=" TV"
+              className={
+                selectedWatch === "tv"
+                  ? " inline-block px-3  hover:cursor-pointer bg-[#032541] text-[#62cbbc]"
+                  : "inline-block px-3 hover:cursor-pointer"
+              }
+            />
+          </div>
+        </div>
+        <div className="relative">
+          <div className="p-3 gap-3 flex overflow-x-scroll ">
+            {freeToWatch &&
+              freeToWatch.map((result) => {
+                return (
+                  <Card
+                    key={result.id}
+                    id={result.id}
+                    coverImage={result.poster_path || result.backdrop_path}
+                    title={result.title || result.original_name}
+                    releaseDate={result.release_date || result.first_air_date}
+                    media_type={selectedWatch}
+                  />
+                );
+              })}
+          </div>
+          <div className="absolute top-0 right-0 bg-gradient-to-l from-[#fff] h-full w-[5%]" />
+        </div>
+      </div>
+      <div className="max-w-[1440px] w-full my-8 px-5  ">
+        <div className="flex gap-5 items-center">
+          <h2 className="text-2xl font-semibold">Trending</h2>
+          <div className="border border-black flex rounded-l-3xl rounded-r-3xl overflow-hidden">
+            <input
+              type="button"
+              onClick={() => setSelectedTrend("day")}
+              value="Today"
+              className={
+                selectedTrend === "day"
+                  ? " inline-block px-3  hover:cursor-pointer bg-[#032541] text-[#62cbbc]"
+                  : "inline-block px-3 hover:cursor-pointer"
+              }
+            />
+            <input
+              type="button"
+              onClick={() => setSelectedTrend("week")}
+              value="This Week"
+              className={
+                selectedTrend === "week"
+                  ? " inline-block px-3  hover:cursor-pointer bg-[#032541] text-[#62cbbc]"
+                  : "inline-block px-3 hover:cursor-pointer"
+              }
+            />
+          </div>
+        </div>
+        <div className="relative">
+          <div className="p-3 gap-3 flex overflow-x-scroll  ">
+            {trend &&
+              trend.map((result) => {
+                return (
+                  <Card
+                    key={result.id}
+                    id={result.id}
+                    coverImage={result.poster_path || result.backdrop_path}
+                    title={result.title || result.original_name}
+                    releaseDate={result.release_date || result.first_air_date}
+                    media_type={result.media_type}
+                  />
+                );
+              })}
+          </div>
+          <div className="absolute top-0 right-0 bg-gradient-to-l from-[#fff] h-full w-[5%]" />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Home;

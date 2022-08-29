@@ -1,13 +1,59 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import url("https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@200;300;400;600;700;900&display=swap");
+
+* {
+  font-family: "Source Sans Pro", sans-serif;
+}
+
+/* .background {
+  background: linear-gradient(
+      to left,
+      rgba(3, 37, 65, 0%),
+      rgba(3, 37, 65, 100%)
+    ),
+    url(./assets/cover-image.jpg);
+} */
+
+/* .button-background {
+  background: linear-gradient(
+    to right,
+    rgba(30, 213, 169, 1) 0%,
+    rgba(30, 213, 169, 1) 100%
+  );
+} */
+
+.scrollbar-hidden {
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+  scrollbar-width: none; /* Firefox */
+}
+.scrollbar-hidden::-webkit-scrollbar {
+  display: none; /* Safari and Chrome */
+}
+
+/* Firefox */
+* {
+  scrollbar-width: auto;
+  scrollbar-color: #dbdbdb #ffffff;
+}
+
+/* Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  width: 20px;
+}
+
+*::-webkit-scrollbar-track {
+  background: #ffffff;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #dbdbdb;
+  border-radius: 10px;
+  border: 4px solid #ffffff;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
