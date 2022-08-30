@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import CoverImage from "../assets/cover-image.jpg";
+import CoverImages from "../assets/cover-image.jpg";
 import { useNavigate } from "react-router-dom";
 import Card from "../components/Card";
 import SliderContent from "../components/SliderContent";
@@ -11,15 +11,35 @@ const Home = () => {
   const context = useContext(DataContext);
 
   const { search, setSearch } = context;
-  const [selected, setSelected] = useState("Streaming");
+  const [selected, setSelected] = useState(28);
   const [selectedWatch, setSelectedWatch] = useState("movie");
   const [selectedTrend, setSelectedTrend] = useState("day");
+  const [popular, setpopular] = useState([]);
   const [trend, setTrend] = useState([]);
   const [freeToWatch, setFreeToWatch] = useState([]);
+  const [coverImage, setcoverImage] = useState();
   let navigate = useNavigate();
 
   const SubmitSearch = (e) => {
     navigate("/search");
+  };
+
+  const getGenresData = async () => {
+    const Option = {
+      method: "GET",
+      url: `https://api.themoviedb.org/3/discover/movie`,
+      params: {
+        api_key: "378d50517001a889a5e2eae0c9b45aaa",
+        with_genres: selected,
+      },
+    };
+    await axios.request(Option).then((result) => {
+      setpopular(result.data.results);
+      // console.log(result.data.results);
+      setcoverImage(
+        popular[Math.floor(Math.random() * popular.length)].poster_path
+      );
+    });
   };
 
   const getTrendingData = async () => {
@@ -34,12 +54,12 @@ const Home = () => {
     };
     await axios.request(trendingOption).then((result) => {
       setTrend(result.data.results);
-      console.log(result.data.results);
+      // console.log(result.data.results);
     });
   };
 
   const getFreeData = async () => {
-    const trendingOption = {
+    const Option = {
       method: "GET",
       url: `https://api.themoviedb.org/3/discover/${selectedWatch}`,
       params: {
@@ -49,11 +69,15 @@ const Home = () => {
         sort_by: "popularity.desc",
       },
     };
-    await axios.request(trendingOption).then((result) => {
+    await axios.request(Option).then((result) => {
       setFreeToWatch(result.data.results);
       // console.log(result.data.results);
     });
   };
+
+  useEffect(() => {
+    getGenresData();
+  }, [selected]);
 
   useEffect(() => {
     getTrendingData();
@@ -68,7 +92,7 @@ const Home = () => {
       <header
         className="max-w-[1440px] w-full flex flex-col items-center justify-center  py-40 text-white gap-16 bg-[top center] bg-no-repeat bg-cover max-h-[360px] min-h-[300px] background"
         style={{
-          backgroundImage: `linear-gradient(to left,rgba(3, 37, 65, 0%),rgba(3, 37, 65, 100%)),url(${CoverImage})`,
+          backgroundImage: `linear-gradient(to left,rgba(3, 37, 65, 0%),rgba(3, 37, 65, 100%)),url(${CoverImages})`,
         }}
       >
         <div className="p-10 flex flex-col gap-10">
@@ -109,10 +133,10 @@ const Home = () => {
           <div className="border border-black flex rounded-l-3xl rounded-r-3xl overflow-hidden">
             <input
               type="button"
-              onClick={() => setSelected("Streaming")}
-              value="Streaming"
+              onClick={() => setSelected(28)}
+              value="Action"
               className={
-                selected === "Streaming"
+                selected === 28
                   ? " inline-block px-3  hover:cursor-pointer bg-[#032541] text-[#62cbbc]"
                   : "inline-block px-3 hover:cursor-pointer"
               }
@@ -120,10 +144,10 @@ const Home = () => {
 
             <input
               type="button"
-              onClick={() => setSelected("On Tv")}
-              value=" On Tv"
+              onClick={() => setSelected(35)}
+              value="Comedy"
               className={
-                selected === "On Tv"
+                selected === 35
                   ? " inline-block px-3  hover:cursor-pointer bg-[#032541] text-[#62cbbc]"
                   : "inline-block px-3 hover:cursor-pointer"
               }
@@ -131,10 +155,10 @@ const Home = () => {
 
             <input
               type="button"
-              onClick={() => setSelected("For Rent")}
-              value="For Rent"
+              onClick={() => setSelected(27)}
+              value="Horror"
               className={
-                selected === "For Rent"
+                selected === 27
                   ? " inline-block px-3  hover:cursor-pointer bg-[#032541] text-[#62cbbc]"
                   : "inline-block px-3 hover:cursor-pointer"
               }
@@ -142,10 +166,10 @@ const Home = () => {
 
             <input
               type="button"
-              value="In Theaters"
-              onClick={() => setSelected("In Theaters")}
+              value="Romance"
+              onClick={() => setSelected(10749)}
               className={
-                selected === "In Theaters"
+                selected === 10749
                   ? " inline-block px-3  hover:cursor-pointer bg-[#032541] text-[#62cbbc]"
                   : "inline-block px-3 hover:cursor-pointer"
               }
@@ -154,15 +178,19 @@ const Home = () => {
         </div>
         <div className="relative">
           <div className="p-3 gap-3 flex overflow-x-scroll scroll-bar ">
-            <Card />
-            <Card />
-            <Card />
-            <Card />
-            <Card />
-            <Card />
-            <Card />
-            <Card />
-            <Card />
+            {popular &&
+              popular.map((result) => {
+                return (
+                  <Card
+                    key={result.id}
+                    id={result.id}
+                    coverImage={result.poster_path || result.backdrop_path}
+                    title={result.title || result.original_name}
+                    releaseDate={result.release_date || result.first_air_date}
+                    media_type={selectedWatch}
+                  />
+                );
+              })}
           </div>
           <div className="absolute top-0 right-0 bg-gradient-to-l from-[#fff] h-full w-[5%]" />
         </div>

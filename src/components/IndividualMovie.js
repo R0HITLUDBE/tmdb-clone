@@ -63,13 +63,13 @@ const IndividualMovie = ({
               {genres.map((res) => {
                 return <span>{res.name}, </span>;
               })}
-              &#8226;
+              &#8226; {episode_run_time} min
             </p>
             <div className="flex">
-              {/* <CircularInput value={value}>
-                <CircularTrack strokeWidth={5} stroke="#eee" />
-                <CircularProgress stroke={`hsl(${value * 100}, 100%, 50%)`} />
-              </CircularInput> */}
+              <div>
+                <h2>{rating * 10}%</h2>
+                <p>User Score</p>
+              </div>
             </div>
             <div>
               <p className=" italic text-lg text-white/70">{tagline}</p>

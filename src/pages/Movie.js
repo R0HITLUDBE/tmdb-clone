@@ -62,7 +62,11 @@ const Movie = () => {
             tagline={moviedata.tagline}
             createdBy={moviedata.created_by}
             genres={moviedata.genres}
-            episode_run_time={moviedata.episode_run_time}
+            episode_run_time={
+              mediatype === "movie"
+                ? moviedata.runtime
+                : moviedata.episode_run_time
+            }
             rating={moviedata.vote_average}
           />
         )}
