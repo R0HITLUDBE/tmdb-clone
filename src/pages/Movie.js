@@ -20,11 +20,11 @@ const Movie = () => {
   const context = useContext(DataContext);
   const { movieId, setmovieId, mediatype, loggedin } = context;
 
-  // useEffect(() => {
-  //   if (!loggedin) {
-  //     return navigate("/login");
-  //   }
-  // });
+  useEffect(() => {
+    if (!loggedin) {
+      return navigate("/login");
+    }
+  });
 
   const getData = async () => {
     const trendingOption = {

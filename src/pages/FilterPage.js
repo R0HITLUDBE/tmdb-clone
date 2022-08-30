@@ -29,11 +29,11 @@ const FilterPage = () => {
     });
   };
 
-  // useEffect(() => {
-  //   if (!loggedin) {
-  //     return navigate("/login");
-  //   }
-  // });
+  useEffect(() => {
+    if (!loggedin) {
+      return navigate("/login");
+    }
+  });
 
   useEffect(() => {
     getList();

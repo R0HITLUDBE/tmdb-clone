@@ -14,11 +14,11 @@ const SearchPage = () => {
 
   const APIKEY = process.env.APIKEY;
 
-  // useEffect(() => {
-  //   if (!loggedin) {
-  //     return navigate("/login");
-  //   }
-  // });
+  useEffect(() => {
+    if (!loggedin) {
+      return navigate("/login");
+    }
+  });
 
   const GetSearch = async (e) => {
     var searchOptions = {
