@@ -99,7 +99,7 @@ const FilterPage = () => {
           </div>
         </div>
         <div>
-          <div className="flex flex-wrap justify-start gap-5 min-h-[565px]">
+          <div className="flex flex-wrap md:justify-start justify-center gap-5 min-h-[565px]">
             {list.map((result) => {
               return (
                 <Card
