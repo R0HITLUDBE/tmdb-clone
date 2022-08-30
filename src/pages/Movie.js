@@ -62,7 +62,7 @@ const Movie = () => {
     };
 
     await axios.request(recommendations).then((result) => {
-      setRecommendation(result.data);
+      setRecommendation(result.data.results);
       console.log(result.data.results);
     });
 
@@ -142,7 +142,7 @@ const Movie = () => {
                   <h2 className="text-2xl font-semibold">Recommendation</h2>
                 </div>
                 <div className="p-3 gap-3 flex overflow-x-scroll ">
-                  {/* {recommendation &&
+                  {recommendation &&
                     recommendation.map((result) => {
                       return (
                         <Card
@@ -151,13 +151,13 @@ const Movie = () => {
                           coverImage={
                             result.poster_path || result.backdrop_path
                           }
-                          title={result.title || result.original_name}
+                          title={result.original_title || result.original_name}
                           releaseDate={
                             result.release_date || result.first_air_date
                           }
                         />
                       );
-                    })} */}
+                    })}
                 </div>
                 <div className="absolute top-0 right-0 bg-gradient-to-l from-[#fff] h-full w-[5%]" />
               </div>
