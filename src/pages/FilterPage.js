@@ -2,12 +2,16 @@ import React, { useContext, useEffect, useState } from "react";
 import Card from "../components/Card";
 import axios from "axios";
 import { DataContext } from "../components/DataProvider";
+import { useNavigate } from "react-router-dom";
 
 const FilterPage = () => {
+  let navigate = useNavigate();
   const [sort, setSort] = useState();
   const [list, setList] = useState([]);
+  const [startingdate, setstartingdate] = useState("");
+  const [endingdate, setendingdate] = useState("");
   const context = useContext(DataContext);
-  const { mediatype, setmediatype } = context;
+  const { mediatype, setmediatype, loggedin } = context;
   const getList = async () => {
     const option = {
       method: "GET",
@@ -15,6 +19,8 @@ const FilterPage = () => {
       params: {
         api_key: "378d50517001a889a5e2eae0c9b45aaa",
         sort_by: sort || "popularity.desc",
+        "primary_release_date.gte": startingdate,
+        "primary_release_date.lte": endingdate,
       },
     };
     await axios.request(option).then((result) => {
@@ -23,9 +29,15 @@ const FilterPage = () => {
     });
   };
 
+  // useEffect(() => {
+  //   if (!loggedin) {
+  //     return navigate("/login");
+  //   }
+  // });
+
   useEffect(() => {
     getList();
-  }, [, sort]);
+  }, [sort, mediatype, startingdate, endingdate]);
 
   return (
     <div className="flex justify-center items-center py-5">
@@ -62,11 +74,27 @@ const FilterPage = () => {
             <label className="font-light">Release Dates</label> <br />
             <div className="flex justify-between p-1 ">
               <label className="text-[#a4a4a4] ">from</label>
-              <input type="date" name="" id="" />
+              <input
+                type="date"
+                value={startingdate}
+                onChange={(e) => {
+                  setstartingdate(e.target.value);
+                }}
+                name=""
+                id=""
+              />
             </div>
             <div className="flex justify-between p-1">
               <label className="text-[#a4a4a4] ">to</label>
-              <input type="date" name="" id="" />
+              <input
+                type="date"
+                value={endingdate}
+                onChange={(e) => {
+                  setendingdate(e.target.value);
+                }}
+                name=""
+                id=""
+              />
             </div>
           </div>
         </div>

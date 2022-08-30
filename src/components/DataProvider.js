@@ -6,7 +6,8 @@ export const DataProvider = ({ children }) => {
   const [search, setSearch] = useState("");
   const [movieId, setmovieId] = useState("");
   const [mediatype, setmediatype] = useState("");
-
+  const [loggedin, setloggedin] = useState(false);
+  const [coverImage, setcoverImage] = useState();
   return (
     <DataContext.Provider
       value={{
@@ -16,6 +17,10 @@ export const DataProvider = ({ children }) => {
         setmovieId,
         mediatype,
         setmediatype,
+        loggedin,
+        setloggedin,
+        coverImage,
+        setcoverImage,
       }}
     >
       {children}

@@ -1,23 +1,22 @@
 import React, { useContext, useEffect, useState } from "react";
-import CoverImages from "../assets/cover-image.jpg";
+
 import { useNavigate } from "react-router-dom";
 import Card from "../components/Card";
-import SliderContent from "../components/SliderContent";
-import SearchPage from "./SearchPage";
+
 import axios from "axios";
 import { DataContext } from "../components/DataProvider";
 
 const Home = () => {
   const context = useContext(DataContext);
 
-  const { search, setSearch } = context;
+  const { search, setSearch, loggedin, coverImage, setcoverImage } = context;
   const [selected, setSelected] = useState(28);
   const [selectedWatch, setSelectedWatch] = useState("movie");
   const [selectedTrend, setSelectedTrend] = useState("day");
   const [popular, setpopular] = useState([]);
   const [trend, setTrend] = useState([]);
   const [freeToWatch, setFreeToWatch] = useState([]);
-  const [coverImage, setcoverImage] = useState();
+
   let navigate = useNavigate();
 
   const SubmitSearch = (e) => {
@@ -36,9 +35,6 @@ const Home = () => {
     await axios.request(Option).then((result) => {
       setpopular(result.data.results);
       // console.log(result.data.results);
-      setcoverImage(
-        popular[Math.floor(Math.random() * popular.length)].poster_path
-      );
     });
   };
 
@@ -75,6 +71,20 @@ const Home = () => {
     });
   };
 
+  // useEffect(() => {
+  //   if (!loggedin) {
+  //     return navigate("/login");
+  //   }
+  // });
+
+  useEffect(() => {
+    setcoverImage(
+      `https://image.tmdb.org/t/p/original/${
+        popular[Math.floor(Math.random() * popular.length)]?.backdrop_path
+      }`
+    );
+  }, [popular]);
+
   useEffect(() => {
     getGenresData();
   }, [selected]);
@@ -90,9 +100,9 @@ const Home = () => {
   return (
     <div className="w-full flex items-center flex-col">
       <header
-        className="max-w-[1440px] w-full flex flex-col items-center justify-center  py-40 text-white gap-16 bg-[top center] bg-no-repeat bg-cover max-h-[360px] min-h-[300px] background"
+        className="max-w-[1440px] w-full flex flex-col items-center justify-center  py-40 text-white gap-16  bg-no-repeat bg-cover max-h-[360px] min-h-[300px] background"
         style={{
-          backgroundImage: `linear-gradient(to left,rgba(3, 37, 65, 0%),rgba(3, 37, 65, 100%)),url(${CoverImages})`,
+          backgroundImage: `linear-gradient(to left,rgba(3, 37, 65, 0%),rgba(3, 37, 65, 100%)),url(${coverImage})`,
         }}
       >
         <div className="p-10 flex flex-col gap-10">
@@ -128,17 +138,17 @@ const Home = () => {
         </div>
       </header>
       <div className="max-w-[1440px] w-full mt-10 px-5  ">
-        <div className="flex gap-5 items-center">
-          <h2 className="text-2xl font-semibold">What's Popular</h2>
-          <div className="border border-black flex rounded-l-3xl rounded-r-3xl overflow-hidden">
+        <div className="flex md:gap-5 gap-0 items-center">
+          <h2 className="md:text-2xl text-xl font-semibold ">What's Popular</h2>
+          <div className="border border-black flex rounded-3xl  ">
             <input
               type="button"
               onClick={() => setSelected(28)}
               value="Action"
               className={
                 selected === 28
-                  ? " inline-block px-3  hover:cursor-pointer bg-[#032541] text-[#62cbbc]"
-                  : "inline-block px-3 hover:cursor-pointer"
+                  ? " inline-block px-2  hover:cursor-pointer bg-[#032541] text-[#62cbbc] rounded-3xl "
+                  : "inline-block px-2 hover:cursor-pointer"
               }
             />
 
@@ -148,8 +158,8 @@ const Home = () => {
               value="Comedy"
               className={
                 selected === 35
-                  ? " inline-block px-3  hover:cursor-pointer bg-[#032541] text-[#62cbbc]"
-                  : "inline-block px-3 hover:cursor-pointer"
+                  ? " inline-block px-2  hover:cursor-pointer bg-[#032541] text-[#62cbbc] rounded-3xl  "
+                  : "inline-block px-2 hover:cursor-pointer"
               }
             />
 
@@ -159,8 +169,8 @@ const Home = () => {
               value="Horror"
               className={
                 selected === 27
-                  ? " inline-block px-3  hover:cursor-pointer bg-[#032541] text-[#62cbbc]"
-                  : "inline-block px-3 hover:cursor-pointer"
+                  ? " inline-block px-2  hover:cursor-pointer bg-[#032541] text-[#62cbbc] rounded-3xl "
+                  : "inline-block px-2 hover:cursor-pointer"
               }
             />
 
@@ -170,8 +180,8 @@ const Home = () => {
               onClick={() => setSelected(10749)}
               className={
                 selected === 10749
-                  ? " inline-block px-3  hover:cursor-pointer bg-[#032541] text-[#62cbbc]"
-                  : "inline-block px-3 hover:cursor-pointer"
+                  ? " inline-block px-2  hover:cursor-pointer bg-[#032541] text-[#62cbbc] rounded-3xl "
+                  : "inline-block px-2 hover:cursor-pointer"
               }
             />
           </div>
@@ -197,15 +207,15 @@ const Home = () => {
       </div>
       <div className="max-w-[1440px] w-full mt-8 px-5  ">
         <div className="flex gap-5 items-center">
-          <h2 className="text-2xl font-semibold">Free to Watch</h2>
-          <div className="border border-black flex rounded-l-3xl rounded-r-3xl overflow-hidden">
+          <h2 className="md:text-2xl text-xl font-semibold">Free to Watch</h2>
+          <div className="border border-black flex rounded-3xl  overflow-hidden">
             <input
               type="button"
               onClick={() => setSelectedWatch("movie")}
               value="Movies"
               className={
                 selectedWatch === "movie"
-                  ? " inline-block px-3  hover:cursor-pointer bg-[#032541] text-[#62cbbc]"
+                  ? " inline-block px-3  hover:cursor-pointer bg-[#032541] text-[#62cbbc] rounded-3xl "
                   : "inline-block px-3 hover:cursor-pointer"
               }
             />
@@ -216,7 +226,7 @@ const Home = () => {
               value=" TV"
               className={
                 selectedWatch === "tv"
-                  ? " inline-block px-3  hover:cursor-pointer bg-[#032541] text-[#62cbbc]"
+                  ? " inline-block px-3  hover:cursor-pointer bg-[#032541] text-[#62cbbc] rounded-3xl "
                   : "inline-block px-3 hover:cursor-pointer"
               }
             />
@@ -243,15 +253,15 @@ const Home = () => {
       </div>
       <div className="max-w-[1440px] w-full my-8 px-5  ">
         <div className="flex gap-5 items-center">
-          <h2 className="text-2xl font-semibold">Trending</h2>
-          <div className="border border-black flex rounded-l-3xl rounded-r-3xl overflow-hidden">
+          <h2 className="md:text-2xl text-xl font-semibold">Trending</h2>
+          <div className="border border-black flex rounded-l-3xl rounded-r-3xl overflow-hidden rounded-3xl ">
             <input
               type="button"
               onClick={() => setSelectedTrend("day")}
               value="Today"
               className={
                 selectedTrend === "day"
-                  ? " inline-block px-3  hover:cursor-pointer bg-[#032541] text-[#62cbbc]"
+                  ? " inline-block px-3  hover:cursor-pointer bg-[#032541] text-[#62cbbc] rounded-3xl "
                   : "inline-block px-3 hover:cursor-pointer"
               }
             />
@@ -261,7 +271,7 @@ const Home = () => {
               value="This Week"
               className={
                 selectedTrend === "week"
-                  ? " inline-block px-3  hover:cursor-pointer bg-[#032541] text-[#62cbbc]"
+                  ? " inline-block px-3  hover:cursor-pointer bg-[#032541] text-[#62cbbc] rounded-3xl "
                   : "inline-block px-3 hover:cursor-pointer"
               }
             />

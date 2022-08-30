@@ -1,15 +1,11 @@
-import React, { useContext, useEffect, useState } from "react";
-import IndiPoster from "../assets/posterimage-individual.jpg";
-import SliderContent from "./SliderContent";
-import axios from "axios";
-import { DataContext } from "./DataProvider";
-import Netflix from "../assets/svgexport-1.svg";
-import {
-  CircularInput,
-  CircularTrack,
-  CircularProgress,
-} from "react-circular-input";
+import React, { useState } from "react";
 
+import Netflix from "../assets/svgexport-1.svg";
+
+import icon1 from "../assets/svgexport-7.svg";
+import icon2 from "../assets/svgexport-8.svg";
+import icon3 from "../assets/svgexport-9.svg";
+import icon4 from "../assets/svgexport-10.svg";
 const IndividualMovie = ({
   posterImage,
   backgroundImage,
@@ -22,11 +18,9 @@ const IndividualMovie = ({
   episode_run_time,
   rating,
 }) => {
-  const [value, setValue] = useState(`${rating * 10}`);
-
   return (
     <div
-      className=" p-8 w-full  max-h-[571px] flex justify-center bg-cover  bg-[right -200px top] bg-no-repeat  "
+      className=" p-8 w-full  min-h-[571px] flex justify-center bg-cover  bg-[right -200px top] bg-no-repeat  "
       // style={{ backgroundImage: `url(${})` }}
       style={{
         backgroundImage: `linear-gradient(to left,rgba(0, 0, 0, 60%),rgba(60, 60, 60, 100%)),url(${backgroundImage})`,
@@ -65,10 +59,24 @@ const IndividualMovie = ({
               })}
               &#8226; {episode_run_time} min
             </p>
-            <div className="flex">
-              <div>
-                <h2>{rating * 10}%</h2>
-                <p>User Score</p>
+            <div className="flex gap-5">
+              <div className="flex flex-col items-center">
+                <h2 className="text-2xl font-semibold">
+                  {Math.ceil(rating * 10)}%
+                </h2>
+                <p className="text-sm">Ratings</p>
+              </div>
+              <div className="rounded-full bg-[rgb(3,37,65)] h-[46px] w-[46px] flex items-center justify-center ">
+                <img src={icon1} className="h-[1em] w-[1em]" alt="" />
+              </div>
+              <div className="rounded-full bg-[rgb(3,37,65)] h-[46px] w-[46px] flex items-center justify-center ">
+                <img src={icon2} className="h-[1em] w-[1em]" alt="" />
+              </div>
+              <div className="rounded-full bg-[rgb(3,37,65)] h-[46px] w-[46px] flex items-center justify-center ">
+                <img src={icon3} className="h-[1em] w-[1em]" alt="" />
+              </div>
+              <div className="rounded-full bg-[rgb(3,37,65)] h-[46px] w-[46px] flex items-center justify-center ">
+                <img src={icon4} className="h-[1em] w-[1em]" alt="" />
               </div>
             </div>
             <div>

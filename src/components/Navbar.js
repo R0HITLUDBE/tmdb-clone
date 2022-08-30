@@ -4,7 +4,7 @@ import Logo from "../assets/navbar-logo-tmdb.svg";
 import { DataContext } from "../components/DataProvider";
 const Navbar = () => {
   const context = useContext(DataContext);
-  const { mediatype, setmediatype } = context;
+  const { mediatype, setmediatype, loggedin, setloggedin } = context;
   return (
     <nav className="bg-[#032541] w-full flex justify-center text-white h-auto">
       <div className="flex justify-between items-center max-w-[1440px] w-full px-5 py-5">
@@ -20,7 +20,18 @@ const Navbar = () => {
           </Link>
         </div>
         <div className="right-container">
-          <p className="font-semibold text-base cursor-pointer">Log out</p>
+          {loggedin ? (
+            <p
+              className="font-semibold text-base cursor-pointer"
+              onClick={() => setloggedin(false)}
+            >
+              Log out
+            </p>
+          ) : (
+            <Link to="/login">
+              <p className="font-semibold text-base cursor-pointer">Sign In</p>
+            </Link>
+          )}
         </div>
       </div>
     </nav>

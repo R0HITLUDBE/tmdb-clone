@@ -2,20 +2,29 @@ import React, { useContext, useEffect, useState } from "react";
 import { BiSearchAlt } from "react-icons/bi";
 import axios from "axios";
 import SearchCard from "../components/SearchCard";
-import { useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { DataContext } from "../components/DataProvider";
 
 const SearchPage = () => {
+  let navigate = useNavigate();
   const context = useContext(DataContext);
-  const { search, setSearch } = context;
+  const { search, setSearch, loggedin } = context;
   const [movies, setMovies] = useState([]);
+  const [resultType, setresultType] = useState("movie");
+
   const APIKEY = process.env.APIKEY;
+
+  // useEffect(() => {
+  //   if (!loggedin) {
+  //     return navigate("/login");
+  //   }
+  // });
 
   const GetSearch = async (e) => {
     var searchOptions = {
       method: "GET",
       url: `
-      https://api.themoviedb.org/3/search/multi`,
+      https://api.themoviedb.org/3/search/${resultType}`,
       params: {
         api_key: "378d50517001a889a5e2eae0c9b45aaa",
         query: search,
@@ -30,7 +39,7 @@ const SearchPage = () => {
 
   useEffect(() => {
     GetSearch();
-  }, []);
+  }, [resultType]);
 
   return (
     <div>
@@ -54,30 +63,72 @@ const SearchPage = () => {
         </div>
       </div>
       <div className="flex justify-center px-10">
-        <div className="flex gap-8 max-w-[1440px] w-full ">
+        <div className="flex flex-col md:flex-row gap-8 max-w-[1440px] w-full ">
           <div>
             <div className="w-[258px] border border-gray-300 rounded-md">
               <div className="bg-[#02b4e4] h-[63px]  px-3 text-white flex items-center">
-                <h3 className="font-semibold text-lg">Search Results</h3>
+                <h3 className="font-semibold  text-lg">Search Results</h3>
               </div>
-              <div className="h-[41px] px-3 flex items-center">
-                <p className="">Movies</p>
-              </div>
-              <div className="h-[41px]  px-3 flex items-center">
-                <p>Tv Shows</p>
-              </div>
-              <div className="h-[41px]  px-3 flex items-center">
-                <p>People</p>
-              </div>
-              <div className="h-[41px]  px-3 flex items-center">
-                <p>Collections</p>
-              </div>
-              <div className="h-[41px]  px-3 flex items-center">
-                <p>Keywords</p>
-              </div>
-              <div className="h-[41px]  px-3 flex items-center">
-                <p>Networks</p>
-              </div>
+              <input
+                type="button"
+                value="Movies"
+                onClick={() => setresultType("movie")}
+                className={
+                  resultType === "movie"
+                    ? "h-[41px] w-full px-3 flex items-center bg-[#ebebeb]"
+                    : "h-[41px] w-full px-3 flex items-center"
+                }
+              />
+              <input
+                type="button"
+                value="Tv Shows"
+                onClick={() => setresultType("tv")}
+                className={
+                  resultType === "tv"
+                    ? "h-[41px] w-full px-3 flex items-center bg-[#ebebeb]"
+                    : "h-[41px] w-full px-3 flex items-center"
+                }
+              />
+              <input
+                type="button"
+                value="People"
+                onClick={() => setresultType("person")}
+                className={
+                  resultType === "person"
+                    ? "h-[41px] w-full px-3 flex items-center bg-[#ebebeb]"
+                    : "h-[41px] w-full px-3 flex items-center"
+                }
+              />
+              <input
+                type="button"
+                value="Collections"
+                onClick={() => setresultType("collection")}
+                className={
+                  resultType === "collection"
+                    ? "h-[41px] w-full px-3 flex items-center bg-[#ebebeb]"
+                    : "h-[41px] w-full px-3 flex items-center"
+                }
+              />
+              <input
+                type="button"
+                value="Keywords"
+                onClick={() => setresultType("keyword")}
+                className={
+                  resultType === "keyword"
+                    ? "h-[41px] w-full px-3 flex items-center bg-[#ebebeb]"
+                    : "h-[41px] w-full px-3 flex items-center"
+                }
+              />
+              <input
+                type="button"
+                value="Networks"
+                onClick={() => setresultType("company")}
+                className={
+                  resultType === "company"
+                    ? "h-[41px] w-full px-3 flex items-center bg-[#ebebeb]"
+                    : "h-[41px] w-full px-3 flex items-center"
+                }
+              />
             </div>
             <p className="my-10">
               Tip: You can use the 'y:' filter to narrow your results by year.
@@ -92,8 +143,12 @@ const SearchPage = () => {
                     <SearchCard
                       key={movie.id}
                       coverImage={movie.poster_path || movie.backdrop_path}
-                      title={movie.title || movie.original_name}
-                      releaseDate={movie.release_date || movie.first_air_date}
+                      title={movie.title || movie.original_name || movie.name}
+                      releaseDate={
+                        movie.release_date ||
+                        movie.first_air_date ||
+                        movie.known_for_department
+                      }
                       overview={movie.overview}
                     />
                   );
