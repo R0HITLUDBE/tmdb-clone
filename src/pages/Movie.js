@@ -10,6 +10,7 @@ import logo3 from "../assets/svgexport-16.svg";
 import logo4 from "../assets/svgexport-17.svg";
 import logo5 from "../assets/svgexport-18.svg";
 import Card from "../components/Card";
+import Poster from "../assets/svgexport-13.svg";
 
 const Movie = () => {
   let navigate = useNavigate();
@@ -98,7 +99,11 @@ const Movie = () => {
         {moviedata && (
           <IndividualMovie
             key={movieId}
-            posterImage={`https://image.tmdb.org/t/p/original/${moviedata.poster_path}`}
+            posterImage={
+              moviedata.poster_path
+                ? `https://image.tmdb.org/t/p/original/${moviedata.poster_path}`
+                : Poster
+            }
             backgroundImage={`https://image.tmdb.org/t/p/original/${moviedata.backdrop_path}`}
             title={moviedata.title || moviedata.original_name}
             releaseDate={moviedata.release_date || moviedata.first_air_date}
@@ -156,6 +161,7 @@ const Movie = () => {
                           releaseDate={
                             result.release_date || result.first_air_date
                           }
+                          media_type={result.media_type}
                         />
                       );
                     })}

@@ -9,7 +9,7 @@ import { DataContext } from "../components/DataProvider";
 const Home = () => {
   const context = useContext(DataContext);
 
-  const { search, setSearch, loggedin, coverImage, setcoverImage } = context;
+  const { search, setSearch, coverImage, setcoverImage } = context;
   const [selected, setSelected] = useState(28);
   const [selectedWatch, setSelectedWatch] = useState("movie");
   const [selectedTrend, setSelectedTrend] = useState("day");
@@ -194,7 +194,7 @@ const Home = () => {
                   <Card
                     key={result.id}
                     id={result.id}
-                    coverImage={result.poster_path || result.backdrop_path}
+                    coverImage={result.poster_path}
                     title={result.title || result.original_name}
                     releaseDate={result.release_date || result.first_air_date}
                     media_type={selectedWatch}
@@ -240,7 +240,7 @@ const Home = () => {
                   <Card
                     key={result.id}
                     id={result.id}
-                    coverImage={result.poster_path || result.backdrop_path}
+                    coverImage={result.poster_path}
                     title={result.title || result.original_name}
                     releaseDate={result.release_date || result.first_air_date}
                     media_type={selectedWatch}
@@ -285,7 +285,7 @@ const Home = () => {
                   <Card
                     key={result.id}
                     id={result.id}
-                    coverImage={result.poster_path || result.backdrop_path}
+                    coverImage={result.poster_path}
                     title={result.title || result.original_name}
                     releaseDate={result.release_date || result.first_air_date}
                     media_type={result.media_type}
