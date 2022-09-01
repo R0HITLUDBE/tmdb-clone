@@ -50,7 +50,7 @@ const Navbar = () => {
               src={More}
               alt=""
               srcset=""
-              className="h-5 cursor-pointer"
+              className="h-5 cursor-pointer md:hidden"
               onClick={handleNav}
             />
           )}
@@ -76,7 +76,7 @@ const Navbar = () => {
                 src={Close}
                 alt=""
                 srcset=""
-                className="h-5 cursor-pointer md:hidden"
+                className="h-5 cursor-pointer "
                 onClick={() => {
                   handleNav();
                 }}
