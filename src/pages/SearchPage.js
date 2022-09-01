@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { BiSearchAlt } from "react-icons/bi";
+import SearchIcon from "../assets/search.png";
 import axios from "axios";
 import SearchCard from "../components/SearchCard";
 import { useNavigate } from "react-router-dom";
@@ -59,7 +59,11 @@ const SearchPage = () => {
               onChange={(e) => setSearch(e.target.value)}
             />
           </form>
-          <BiSearchAlt className="h-6 w-6 absolute left-0 top-0 mt-2 ml-2" />
+          <img
+            src={SearchIcon}
+            alt="Search..."
+            className="h-6 w-6 absolute left-0 top-0 mt-2 ml-2"
+          />
         </div>
       </div>
       <div className="flex justify-center px-10">
@@ -142,6 +146,8 @@ const SearchPage = () => {
                   return (
                     <SearchCard
                       key={movie.id}
+                      id={movie.id}
+                      media_type={resultType}
                       coverImage={movie.poster_path || movie.backdrop_path}
                       title={movie.title || movie.original_name || movie.name}
                       releaseDate={

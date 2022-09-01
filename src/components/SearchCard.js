@@ -1,8 +1,29 @@
-import React, { lazy } from "react";
+import React, { lazy, useContext } from "react";
 import Poster from "../assets/svgexport-13.svg";
-const SearchCard = ({ title, releaseDate, overview, coverImage }) => {
+import { DataContext } from "./DataProvider";
+import { useNavigate } from "react-router-dom";
+const SearchCard = ({
+  title,
+  releaseDate,
+  overview,
+  coverImage,
+  id,
+  media_type,
+}) => {
+  const context = useContext(DataContext);
+  const { setmovieId, setmediatype } = context;
+  let navigate = useNavigate();
   return (
-    <div className="md:w-4/5 shadow-lg flex rounded-lg overflow-hidden border border-gray-200 min-h-[150px] ">
+    <div
+      onClick={() => {
+        if (media_type === "movie" || media_type === "tv") {
+          setmovieId(id);
+          setmediatype(media_type);
+          navigate(`/movie`);
+        }
+      }}
+      className="md:w-4/5 shadow-lg flex rounded-lg overflow-hidden border border-gray-200 min-h-[150px] w-full cursor-pointer "
+    >
       <img
         src={
           coverImage

@@ -94,6 +94,15 @@ const Register = () => {
             LOGIN
           </Link>
         </p>
+        <p
+          className="cursor-pointer text-center"
+          onClick={() => {
+            setloggedin(true);
+            navigate("/");
+          }}
+        >
+          Guest Login
+        </p>
       </div>
     </div>
   );

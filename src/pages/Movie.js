@@ -24,6 +24,7 @@ const Movie = () => {
     if (!loggedin) {
       return navigate("/login");
     }
+    console.log(`https://api.themoviedb.org/3/${mediatype}/${movieId}`);
   });
 
   const getData = async () => {
@@ -37,7 +38,7 @@ const Movie = () => {
     const recommendations = {
       method: "GET",
       url: `
-      https://api.themoviedb.org/3/movie/${movieId}/recommendations`,
+      https://api.themoviedb.org/3/${mediatype}/${movieId}/recommendations`,
       params: {
         api_key: "378d50517001a889a5e2eae0c9b45aaa",
       },
