@@ -76,7 +76,7 @@ const Navbar = () => {
                 src={Close}
                 alt=""
                 srcset=""
-                className="h-5 cursor-pointer"
+                className="h-5 cursor-pointer md:hidden"
                 onClick={() => {
                   handleNav();
                 }}
