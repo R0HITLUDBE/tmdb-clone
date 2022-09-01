@@ -98,7 +98,7 @@ const Home = () => {
   }, [selectedWatch]);
 
   return (
-    <div className="w-full flex items-center flex-col">
+    <div className="w-full flex items-center flex-col -z-10">
       <header
         className="max-w-[1440px] w-full flex flex-col items-center justify-center  py-40 text-white gap-16  bg-no-repeat bg-cover max-h-[360px] min-h-[300px] background"
         style={{
@@ -122,7 +122,7 @@ const Home = () => {
               type="text"
               placeholder="Search for a movie, tv show, person......"
               value={search}
-              className="w-full h-12 text-lg text-black/50 border-none rounded-3xl pl-5 focus:outline-none"
+              className="w-full h-12 text-lg text-black/50 border-none rounded-3xl pl-5 focus:outline-none -z-20"
               onChange={(e) => setSearch(e.target.value)}
             />
             <input
