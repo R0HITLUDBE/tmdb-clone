@@ -3,6 +3,7 @@ import Card from "../components/Card";
 import axios from "axios";
 import { DataContext } from "../components/DataProvider";
 import { useNavigate } from "react-router-dom";
+import MultiRangeSlider from "../components/MultiRangeSlider";
 
 const FilterPage = () => {
   let navigate = useNavigate();
@@ -10,6 +11,9 @@ const FilterPage = () => {
   const [list, setList] = useState([]);
   const [startingdate, setstartingdate] = useState("");
   const [endingdate, setendingdate] = useState("");
+  const [min, setmin] = useState(0);
+  const [max, setmax] = useState(10);
+
   const context = useContext(DataContext);
   const { mediatype, setmediatype, loggedin } = context;
   const getList = async () => {
@@ -21,6 +25,8 @@ const FilterPage = () => {
         sort_by: sort || "popularity.desc",
         "primary_release_date.gte": startingdate,
         "primary_release_date.lte": endingdate,
+        "vote_average.gte": min,
+        "vote_average.lte": max,
       },
     };
     await axios.request(option).then((result) => {
@@ -37,7 +43,7 @@ const FilterPage = () => {
 
   useEffect(() => {
     getList();
-  }, [sort, mediatype, startingdate, endingdate]);
+  }, [sort, mediatype, startingdate, endingdate, min, max]);
 
   return (
     <div className="flex justify-center items-center py-5">
@@ -94,6 +100,18 @@ const FilterPage = () => {
                 }}
                 name=""
                 id=""
+              />
+            </div>
+            <hr className="my-3" />
+            <div>
+              <label className="font-light">User Score</label>
+              <MultiRangeSlider
+                min={0}
+                max={10}
+                onChange={({ min, max }) => {
+                  setmin(min);
+                  setmax(max);
+                }}
               />
             </div>
           </div>
